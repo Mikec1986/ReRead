@@ -5,37 +5,71 @@ class RereadApp:
         self.master = master
         self.master.title("Reread - Online Bookstore")
 
+        # Header
+        self.search_label = tk.Label(master, text="Welcome to ReRead!", font=("Arial", 16))
+        self.search_label.pack()
+        
         # Introduction
         self.intro_text = """
-        Welcome to ReRead - where the love for books meets the joy of recycling! 
+        Where the love for books meets the joy of recycling! 
         Dive into our virtual bookstore, where every page holds a story and every purchase breathes new life into pre-loved books.
         Search for your next literary adventure, add favorites to your cart, and embark on a journey through the endless shelves of knowledge.
         Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
         """
-        self.intro_label = tk.Label(master, text=self.intro_text, wraplength=400, justify="center")
+        self.intro_label = tk.Label(master, text=self.intro_text, wraplength=400,font=("Arial", 12), justify="center")
         self.intro_label.pack() 
-        
-        # Create UI elements
-        self.label = tk.Label(master, text="Welcome to Reread")
-        self.label.pack()
 
-        self.search_entry = tk.Entry(master)
-        self.search_entry.pack()
+        # Navigation buttons
+        search_button = tk.Button(master, text="Search Inventory", command=self.show_inventory_page, font=("Arial", 12))
+        search_button.pack(pady=10)
 
-        self.search_button = tk.Button(master, text="Search", command=self.search_books)
-        self.search_button.pack()
+        view_cart_button = tk.Button(master, text="View Cart", command=self.show_cart_page, font=("Arial", 12))
+        view_cart_button.pack()
 
-        self.book_listbox = tk.Listbox(master)
-        self.book_listbox.pack()
+        self.current_frame = None
 
-        self.add_to_cart_button = tk.Button(master, text="Add to Cart", command=self.add_to_cart)
-        self.add_to_cart_button.pack()
+    def show_inventory_page(self):
+        if self.current_frame:
+            self.current_frame.destroy()
 
-        self.cart_listbox = tk.Listbox(master)
-        self.cart_listbox.pack()
+        self.current_frame = tk.Frame(self.master)
+        self.current_frame.pack()
 
-        self.checkout_button = tk.Button(master, text="Checkout", command=self.checkout)
-        self.checkout_button.pack()
+        # Display inventory page elements
+        search_entry = tk.Entry(self.current_frame, font=("Arial", 12))
+        search_entry.pack()
+
+        search_button = tk.Button(self.current_frame, text="Search", command=self.search_books, font=("Arial", 12))
+        search_button.pack()
+
+        book_listbox = tk.Listbox(self.current_frame, font=("Arial", 12))
+        book_listbox.pack()
+
+        add_to_cart_button = tk.Button(self.current_frame, text="Add to Cart", command=self.add_to_cart, font=("Arial", 12))
+        add_to_cart_button.pack()
+
+        back_button = tk.Button(self.current_frame, text="Back to Main Page", command=self.show_main_page, font=("Arial", 12))
+        back_button.pack(pady=10)
+
+    def show_cart_page(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+
+        self.current_frame = tk.Frame(self.master)
+        self.current_frame.pack()
+
+        # Display cart page elements
+        cart_label = tk.Label(self.current_frame, text="Your Cart", font=("Arial", 16))
+        cart_label.pack()
+
+        cart_listbox = tk.Listbox(self.current_frame, font=("Arial", 12))
+        cart_listbox.pack()
+
+        checkout_button = tk.Button(self.current_frame, text="Checkout", command=self.checkout, font=("Arial", 12))
+        checkout_button.pack()
+
+        back_button = tk.Button(self.current_frame, text="Back to Main Page", command=self.show_main_page, font=("Arial", 12))
+        back_button.pack(pady=10)
 
     def search_books(self):
         # Implement search functionality here
@@ -48,6 +82,11 @@ class RereadApp:
     def checkout(self):
         # Implement checkout functionality
         pass
+
+    def show_main_page(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+        self.__init__(self.master)
 
 def main():
     root = tk.Tk()
