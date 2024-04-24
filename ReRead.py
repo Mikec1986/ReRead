@@ -5,6 +5,16 @@ class RereadApp:
         self.master = master
         self.master.title("Reread - Online Bookstore")
 
+        # Introduction
+        self.intro_text = """
+        Welcome to ReRead - where the love for books meets the joy of recycling! 
+        Dive into our virtual bookstore, where every page holds a story and every purchase breathes new life into pre-loved books.
+        Search for your next literary adventure, add favorites to your cart, and embark on a journey through the endless shelves of knowledge.
+        Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
+        """
+        self.intro_label = tk.Label(master, text=self.intro_text, wraplength=400, justify="center")
+        self.intro_label.pack() 
+        
         # Create UI elements
         self.label = tk.Label(master, text="Welcome to Reread")
         self.label.pack()
