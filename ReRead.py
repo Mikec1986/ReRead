@@ -27,26 +27,26 @@ class MainPage:
     def open_search_window(self):
         search_window = tk.Toplevel(self.master)
         search_window.title("ReRead - Search Inventory")
-        search_window.configure(background='#D0E7F9')  # Soft blue background color
+        search_window.configure(bg='#D0E7F9')  # Soft blue background color
         SearchPage(search_window)
 
     def open_cart_window(self):
         cart_window = tk.Toplevel(self.master)
         cart_window.title("ReRead - View Cart")
-        cart_window.configure(background='#D0E7F9')  # Soft blue background color
+        cart_window.configure(bg='#D0E7F9')  # Soft blue background color
         CartPage(cart_window)
 
 class SearchPage:
     def __init__(self, master):
         self.master = master
-        self.master.configure(background='#D0E7F9')  # Soft blue background color
+        self.master.configure(bg='#D0E7F9')  # Soft blue background color
 
         # Implement search functionality here
 
 class CartPage:
     def __init__(self, master):
         self.master = master
-        self.master.configure(background='#D0E7F9')  # Soft blue background color
+        self.master.configure(bg='#D0E7F9')  # Soft blue background color
 
         # Implement cart functionality here
 
