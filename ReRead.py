@@ -6,6 +6,11 @@ class MainPage:
         self.master.title("ReRead - Main Page")
         self.master.configure(background='#D0E7F9')  # Soft blue background color
 
+        # Image
+        self.image = tk.PhotoImage(file="books.jpg")  
+        image_label = tk.Label(master, image=self.image, bg='#D0E7F9')  # Set background color
+        image_label.pack()
+
         # Introduction
         intro_text = """
         Welcome to ReRead - where the love for books meets the joy of recycling! 
@@ -27,26 +32,26 @@ class MainPage:
     def open_search_window(self):
         search_window = tk.Toplevel(self.master)
         search_window.title("ReRead - Search Inventory")
-        search_window.configure(bg='#D0E7F9')  # Soft blue background color
+        search_window.configure(bg='#D0E7F9') 
         SearchPage(search_window)
 
     def open_cart_window(self):
         cart_window = tk.Toplevel(self.master)
         cart_window.title("ReRead - View Cart")
-        cart_window.configure(bg='#D0E7F9')  # Soft blue background color
+        cart_window.configure(bg='#D0E7F9')  
         CartPage(cart_window)
 
 class SearchPage:
     def __init__(self, master):
         self.master = master
-        self.master.configure(bg='#D0E7F9')  # Soft blue background color
+        self.master.configure(bg='#D0E7F9')  
 
         # Implement search functionality here
 
 class CartPage:
     def __init__(self, master):
         self.master = master
-        self.master.configure(bg='#D0E7F9')  # Soft blue background color
+        self.master.configure(bg='#D0E7F9') 
 
         # Implement cart functionality here
 
