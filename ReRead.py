@@ -1,15 +1,14 @@
 import tkinter as tk
 
+
+
 class MainPage:
     def __init__(self, master):
         self.master = master
         self.master.title("ReRead - Main Page")
         self.master.configure(background='#D0E7F9')  # Soft blue background color
 
-        # Image
-        self.image = tk.PhotoImage(file="books.jpg")  
-        image_label = tk.Label(master, image=self.image, bg='#D0E7F9')  # Set background color
-        image_label.pack()
+
 
         # Introduction
         intro_text = """
