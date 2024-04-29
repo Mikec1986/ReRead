@@ -1,6 +1,6 @@
 ReRead Book Resale
 
-must have 
+must install pillow library  
 
 pip install pillow 
 
