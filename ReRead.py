@@ -34,7 +34,7 @@ class MainPage:
 
         self.load_and_display_image()
         
-        welcome_label = tk.Label(login_window, text="Welcome to ReRead!", font=("Arial", 16), bg='#D0E7F9')
+        welcome_label = tk.Label(self.master, text="Welcome to ReRead!", font=("Arial", 16), bg='#F7F7F7')
         welcome_label.pack(pady=10)
         
         # Introduction
@@ -308,6 +308,8 @@ class CartPage:
         self.master = master
         self.master.configure(bg='#F7F7F7')
 
+        cart_label = tk.Label(self.master, text="Welcome to ReRead!", font=("Arial", 16), bg='#F7F7F7')
+        cart_label.pack(pady=10)
         # Implement cart functionality here
 
 
@@ -329,6 +331,9 @@ class RegistrationPage:
         self.master.title("ReRead - Registration")
         self.master.configure(background='#F7F7F7')
 
+        join_label = tk.Label(self.master, text="Join Us!", font=("Arial", 16), bg='#F7F7F7')
+        join_label.pack(pady=10)
+        
         # Labels and Entry Widgets
         tk.Label(master, text="Username:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.username_entry = tk.Entry(master, font=("Arial", 12))
@@ -408,6 +413,9 @@ class LoginPage:
         self.inventory_db_connection = inventory_db_connection
         self.master.title("ReRead - Login")
         self.master.configure(background='#F7F7F7')
+        
+        welcomeb_label = tk.Label(self.master, text="Welcome Back!", font=("Arial", 16), bg='#F7F7F7')
+        welcomeb_label.pack(pady=10)
 
         # Load and display the login image
        
