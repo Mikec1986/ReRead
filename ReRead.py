@@ -404,6 +404,15 @@ class LoginPage:
         self.inventory_db_connection = inventory_db_connection
         self.master.title("ReRead - Login")
         self.master.configure(background='#D0E7F9')  # Soft blue background color
+        
+         # Load and display the login image
+        login_image = Image.open("login.png")  
+        resized_login_image = login_image.resize((200, 200))
+        login_photo = ImageTk.PhotoImage(resized_login_image)
+
+        login_label = tk.Label(master, image=login_photo, bg='#D0E7F9')
+        login_label.image = login_photo
+        login_label.pack()
 
         # Labels and Entry Widgets
         tk.Label(master, text="Username:", font=("Arial", 12), bg='#D0E7F9').pack()
