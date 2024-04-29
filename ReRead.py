@@ -30,7 +30,7 @@ class MainPage:
         self.db_connection = db_connection
         self.inventory_db_connection = inventory_db_connection
         self.master.title("ReRead - Main Page")
-        self.master.configure(background='#D0E7F9')  # Soft blue background color
+        self.master.configure(background='#F7F7F7')  # Light grey background color
 
         self.load_and_display_image()
         
@@ -42,30 +42,30 @@ class MainPage:
         Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
         """
         intro_label = tk.Label(master, text=intro_text, wraplength=400, justify="center", font=("Arial", 12),
-                               bg='#D0E7F9')  # Set background color
+                               bg='#F7F7F7')  # Set background color
         intro_label.pack()
 
         inventory_button = tk.Button(master, text="Inventory", command=self.open_inventory_window, font=("Arial", 12),
-                                  bg='blue', fg='white')  # Set button color
+                                  bg='#007BFF', fg='white')  # Set button color
         inventory_button.pack(pady=5)
 
         view_cart_button = tk.Button(master, text="View Cart", command=self.open_cart_window, font=("Arial", 12),
-                                     bg='blue', fg='white')
+                                     bg='#007BFF', fg='white')
         view_cart_button.pack(pady=5)
 
         if not logged_in:
             # Login and Register buttons
             login_button = tk.Button(master, text="Login", command=self.open_login_window, font=("Arial", 12),
-                                     bg='green', fg='white')
+                                     bg='#28A745', fg='white')
             login_button.pack(pady=5)
 
             register_button = tk.Button(master, text="Register", command=self.open_register_window, font=("Arial", 12),
-                                        bg='green', fg='white')
+                                        bg='#28A745', fg='white')
             register_button.pack(pady=5)
 
         if logged_in:
             logout_button = tk.Button(master, text="Log Out", command=self.logout, font=("Arial", 12),
-                                     bg='green', fg='white')
+                                     bg='#DC3545', fg='white')
             logout_button.pack(pady=5)
 
     def logout(self):
@@ -78,6 +78,7 @@ class MainPage:
         main()
 
 
+
     def open_inventory_window(self):
         """
         Open the inventory window.
@@ -85,7 +86,7 @@ class MainPage:
         self.master.withdraw()  # Hide the main window
         inventory_window = tk.Toplevel(self.master)
         inventory_window.title("ReRead - Inventory")
-        inventory_window.configure(bg='#D0E7F9')
+        inventory_window.configure(bg='#F7F7F7')
         inventory_window.protocol("WM_DELETE_WINDOW", self.on_inventory_window_close)
         InventoryPage(inventory_window, self.db_connection, self.inventory_db_connection)
 
@@ -97,7 +98,7 @@ class MainPage:
         cart_window = tk.Toplevel(self.master)
         cart_window.protocol("WM_DELETE_WINDOW", self.on_cart_window_close)
         cart_window.title("ReRead - View Cart")
-        cart_window.configure(bg='#D0E7F9')
+        cart_window.configure(bg='#F7F7F7')
         CartPage(cart_window)
 
     def open_login_window(self):
@@ -108,7 +109,7 @@ class MainPage:
         login_window = tk.Toplevel(self.master)
         login_window.protocol("WM_DELETE_WINDOW", self.on_login_window_close)
         login_window.title("ReRead - Login")
-        login_window.configure(bg='#D0E7F9')
+        login_window.configure(bg='#F7F7F7')
         LoginPage(login_window, self.db_connection, self.inventory_db_connection)
         
     def load_and_display_image(self):
@@ -120,13 +121,13 @@ class MainPage:
         image = Image.open(image_path)
 
         # Resize the image if needed
-        image = image.resize((400, 200))  # Adjust width and height as needed
+        image = image.resize((600, 400))  # Adjust width and height as needed
 
         # Convert the image to a format compatible with Tkinter
         photo = ImageTk.PhotoImage(image)
 
         # Create a Label widget to display the image
-        image_label = tk.Label(self.master, image=photo, bg='#D0E7F9')
+        image_label = tk.Label(self.master, image=photo, bg='#F7F7F7')
         image_label.image = photo  # Keep a reference to prevent garbage collection
         image_label.pack()
 
@@ -138,7 +139,7 @@ class MainPage:
         register_window = tk.Toplevel(self.master)
         register_window.protocol("WM_DELETE_WINDOW", self.on_register_window_close)
         register_window.title("ReRead - Registration")
-        register_window.configure(bg='#D0E7F9')
+        register_window.configure(bg='#F7F7F7')
         RegistrationPage(register_window, self.db_connection)
 
     # Show the main window when window is closed
@@ -186,27 +187,27 @@ class SellPage:
         self.master = master
         self.inventory_db_connection = inventory_db_connection
         self.master.title("ReRead - Sell Book")
-        self.master.configure(background='#D0E7F9')
+        self.master.configure(background='#F7F7F7')
 
         # Labels and Entry Widgets for the book details form
-        tk.Label(master, text="Title:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Title:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.title_entry = tk.Entry(master, font=("Arial", 12))
         self.title_entry.pack()
 
-        tk.Label(master, text="Author:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Author:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.author_entry = tk.Entry(master, font=("Arial", 12))
         self.author_entry.pack()
 
-        tk.Label(master, text="Price:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Price:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.price_entry = tk.Entry(master, font=("Arial", 12))
         self.price_entry.pack()
 
-        tk.Label(master, text="Quantity:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Quantity:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.quantity_entry = tk.Entry(master, font=("Arial", 12))
         self.quantity_entry.pack()
 
         sell_button = tk.Button(master, text="Sell", command=self.sell_book, font=("Arial", 12),
-                                bg='green', fg='white')
+                                bg='#007BFF', fg='white')
         sell_button.pack(pady=10)
 
     def sell_book(self):
@@ -251,7 +252,7 @@ class InventoryPage:
         self.master = master
         self.db_connection = db_connection
         self.inventory_db_connection = inventory_db_connection
-        self.master.configure(bg='#D0E7F9')
+        self.master.configure(bg='#F7F7F7')
 
         self.inventory_tree = ttk.Treeview(master)
         self.inventory_tree["columns"] = ("Title", "Author", "Price", "Quantity")
@@ -265,7 +266,7 @@ class InventoryPage:
         self.populate_inventory()
 
         sell_button = tk.Button(master, text="Sell", command=self.open_sell_page, font=("Arial", 12),
-                                bg='green', fg='white')
+                                bg='#007BFF', fg='white')
         sell_button.pack(pady=10)
 
 
@@ -286,7 +287,7 @@ class InventoryPage:
         """
         sell_window = tk.Toplevel(self.master)
         sell_window.title("ReRead - Sell Book")
-        sell_window.configure(bg='#D0E7F9')
+        sell_window.configure(bg='#F7F7F7')
         SellPage(sell_window, self.db_connection)
 
 class CartPage:
@@ -302,7 +303,7 @@ class CartPage:
             master (tk.Tk): The master Tkinter window.
         """
         self.master = master
-        self.master.configure(bg='#D0E7F9')
+        self.master.configure(bg='#F7F7F7')
 
         # Implement cart functionality here
 
@@ -323,24 +324,24 @@ class RegistrationPage:
         self.master = master
         self.db_connection = db_connection
         self.master.title("ReRead - Registration")
-        self.master.configure(background='#D0E7F9')  # Soft blue background color
+        self.master.configure(background='#F7F7F7')
 
         # Labels and Entry Widgets
-        tk.Label(master, text="Username:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Username:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.username_entry = tk.Entry(master, font=("Arial", 12))
         self.username_entry.pack()
 
-        tk.Label(master, text="Password:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Password:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.password_entry = tk.Entry(master, show="*", font=("Arial", 12))
         self.password_entry.pack()
 
-        tk.Label(master, text="Email:", font=("Arial", 12), bg='#D0E7F9').pack()  # Changed "Password" to "Email"
+        tk.Label(master, text="Email:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.email_entry = tk.Entry(master, font=("Arial", 12))
-        self.email_entry.pack()  # Changed show="*" to normal entry for email
+        self.email_entry.pack()
 
         # Register Button
         register_button = tk.Button(master, text="Register", command=self.register_user, font=("Arial", 12),
-                                    bg='green', fg='white')
+                                    bg='#007BFF', fg='white')
         register_button.pack(pady=10)
 
     def register_user(self):
@@ -349,10 +350,10 @@ class RegistrationPage:
         """
         username = self.username_entry.get()
         password = self.password_entry.get()
-        email = self.email_entry.get()  # Added email retrieval
+        email = self.email_entry.get()
 
-        if not username or not password or not email:  # Check for email as well
-            messagebox.showerror("Error", "Please enter both username, password, and email.")  # Updated error message
+        if not username or not password or not email:
+            messagebox.showerror("Error", "Please enter both username, password, and email.")
             return
 
         # Check if username already exists
@@ -365,7 +366,7 @@ class RegistrationPage:
             return
 
         # Insert new user into the database
-        cursor.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))  # Updated query
+        cursor.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))
         self.db_connection.commit()
 
         # Get the last inserted row ID (auto-incremented)
@@ -377,13 +378,13 @@ class RegistrationPage:
         print("User ID (Four digits):", user_id_four_digits)
 
         messagebox.showinfo("Success", "Registration successful!")
-        global logged_in  # Added global keyword to modify the global variable
+        global logged_in
         logged_in = True
 
         # Clear entry fields after registration
         self.username_entry.delete(0, tk.END)
         self.password_entry.delete(0, tk.END)
-        self.email_entry.delete(0, tk.END)  # Clear email entry field
+        self.email_entry.delete(0, tk.END)
 
 class LoginPage:
     """
@@ -403,29 +404,30 @@ class LoginPage:
         self.db_connection = db_connection
         self.inventory_db_connection = inventory_db_connection
         self.master.title("ReRead - Login")
-        self.master.configure(background='#D0E7F9')  # Soft blue background color
-        
-         # Load and display the login image
-        login_image = Image.open("login.png")  
+        self.master.configure(background='#F7F7F7')
+
+        # Load and display the login image
+       
+        login_image = Image.open("login.png")
         resized_login_image = login_image.resize((200, 200))
         login_photo = ImageTk.PhotoImage(resized_login_image)
 
-        login_label = tk.Label(master, image=login_photo, bg='#D0E7F9')
+        login_label = tk.Label(master, image=login_photo, bg='#F7F7F7')
         login_label.image = login_photo
         login_label.pack()
 
         # Labels and Entry Widgets
-        tk.Label(master, text="Username:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Username:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.username_entry = tk.Entry(master, font=("Arial", 12))
         self.username_entry.pack()
 
-        tk.Label(master, text="Password:", font=("Arial", 12), bg='#D0E7F9').pack()
+        tk.Label(master, text="Password:", font=("Arial", 12), bg='#F7F7F7').pack()
         self.password_entry = tk.Entry(master, show="*", font=("Arial", 12))
         self.password_entry.pack()
 
         # Login Button
         login_button = tk.Button(master, text="Login", command=self.login_user, font=("Arial", 12),
-                                 bg='green', fg='white')
+                                 bg='#007BFF', fg='white')
         login_button.pack(pady=10)
 
     def login_user(self):
@@ -497,3 +499,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
