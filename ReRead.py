@@ -308,7 +308,7 @@ class CartPage:
         self.master = master
         self.master.configure(bg='#F7F7F7')
 
-        cart_label = tk.Label(self.master, text="Welcome to ReRead!", font=("Arial", 16), bg='#F7F7F7')
+        cart_label = tk.Label(self.master, text="Your Cart", font=("Arial", 16), bg='#F7F7F7')
         cart_label.pack(pady=10)
         # Implement cart functionality here
 
