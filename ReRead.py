@@ -333,6 +333,15 @@ class RegistrationPage:
 
         join_label = tk.Label(self.master, text="Join Us!", font=("Arial", 16), bg='#F7F7F7')
         join_label.pack(pady=10)
+         # Load and display the login image
+       
+        login_image = Image.open("login.png")
+        resized_login_image = login_image.resize((200, 200))
+        login_photo = ImageTk.PhotoImage(resized_login_image)
+
+        login_label = tk.Label(master, image=login_photo, bg='#F7F7F7')
+        login_label.image = login_photo
+        login_label.pack()
         
         # Labels and Entry Widgets
         tk.Label(master, text="Username:", font=("Arial", 12), bg='#F7F7F7').pack()
