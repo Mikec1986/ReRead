@@ -352,10 +352,6 @@ class RegistrationPage:
         self.password_entry = tk.Entry(master, show="*", font=("Arial", 12))
         self.password_entry.pack()
 
-        tk.Label(master, text="Email:", font=("Arial", 12), bg='#F7F7F7').pack()
-        self.email_entry = tk.Entry(master, font=("Arial", 12))
-        self.email_entry.pack()
-
         # Register Button
         register_button = tk.Button(master, text="Register", command=self.register_user, font=("Arial", 12),
                                     bg='#007BFF', fg='white')
@@ -367,10 +363,10 @@ class RegistrationPage:
         """
         username = self.username_entry.get()
         password = self.password_entry.get()
-        email = self.email_entry.get()
+        
 
-        if not username or not password or not email:
-            messagebox.showerror("Error", "Please enter both username, password, and email.")
+        if not username or not password:
+            messagebox.showerror("Error", "Please enter both username, password")
             return
 
         # Check if username already exists
@@ -383,7 +379,7 @@ class RegistrationPage:
             return
 
         # Insert new user into the database
-        cursor.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
         self.db_connection.commit()
 
         # Get the last inserted row ID (auto-incremented)
@@ -401,7 +397,7 @@ class RegistrationPage:
         # Clear entry fields after registration
         self.username_entry.delete(0, tk.END)
         self.password_entry.delete(0, tk.END)
-        self.email_entry.delete(0, tk.END)
+       
 
 class LoginPage:
     """
