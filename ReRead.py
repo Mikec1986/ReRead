@@ -5,6 +5,8 @@ import sqlite3
 from user import *
 from book import *
 from inventory import *
+from PIL import Image, ImageTk
+
 
 # Global variable to track login status
 global logged_in
@@ -30,6 +32,8 @@ class MainPage:
         self.master.title("ReRead - Main Page")
         self.master.configure(background='#D0E7F9')  # Soft blue background color
 
+        self.load_and_display_image()
+        
         # Introduction
         intro_text = """
         Welcome to ReRead - where the love for books meets the joy of recycling! 
@@ -106,6 +110,25 @@ class MainPage:
         login_window.title("ReRead - Login")
         login_window.configure(bg='#D0E7F9')
         LoginPage(login_window, self.db_connection, self.inventory_db_connection)
+        
+    def load_and_display_image(self):
+        """
+        Load and display the image on the main window.
+        """
+        # Load the image
+        image_path = "books.jpg"  # Adjust the path accordingly
+        image = Image.open(image_path)
+
+        # Resize the image if needed
+        image = image.resize((400, 200))  # Adjust width and height as needed
+
+        # Convert the image to a format compatible with Tkinter
+        photo = ImageTk.PhotoImage(image)
+
+        # Create a Label widget to display the image
+        image_label = tk.Label(self.master, image=photo, bg='#D0E7F9')
+        image_label.image = photo  # Keep a reference to prevent garbage collection
+        image_label.pack()
 
     def open_register_window(self):
         """
