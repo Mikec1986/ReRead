@@ -34,9 +34,12 @@ class MainPage:
 
         self.load_and_display_image()
         
+        welcome_label = tk.Label(login_window, text="Welcome to ReRead!", font=("Arial", 16), bg='#D0E7F9')
+        welcome_label.pack(pady=10)
+        
         # Introduction
         intro_text = """
-        Welcome to ReRead - where the love for books meets the joy of recycling! 
+        Where the love for books meets the joy of recycling! 
         Dive into our virtual bookstore, where every page holds a story and every purchase breathes new life into pre-loved books.
         Search for your next literary adventure, add favorites to your cart, and embark on a journey through the endless shelves of knowledge.
         Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
