@@ -50,9 +50,11 @@ class MainPage:
         image_label.image = self.photo  # Keep a reference to prevent garbage collection
         image_label.pack()
 
+        welcomea_label = tk.Label(self.master, text="Welcome to ReRead!", font=("Arial", 16), bg='#F7F7F7')
+        welcomea_label.pack(pady=10)
         # Introduction
         intro_text = """
-        Welcome to ReRead - where the love for books meets the joy of recycling! 
+        Where the love for books meets the joy of recycling! 
         Dive into our virtual bookstore, where every page holds a story and every purchase breathes new life into pre-loved books.
         Search for your next literary adventure, add favorites to your cart, and embark on a journey through the endless shelves of knowledge.
         Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
@@ -75,7 +77,7 @@ class MainPage:
                                         bg='#28A745', fg='white')
             register_button.pack(pady=5)
 
-        if logged_in:
+        if logged_in:       
             view_cart_button = tk.Button(master, text="View Cart", command=self.open_cart_window, font=("Arial", 12),
                                          bg='#007BFF', fg='white')
             view_cart_button.pack(pady=5)
@@ -84,15 +86,15 @@ class MainPage:
                                       bg='#DC3545', fg='white')
             logout_button.pack(pady=5)
 
-    def logout(self):
-        global logged_in
-        logged_in = False
+    def logout(self):   
+        global logged_in               
+        logged_in = False   
         self.master.destroy()
         main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
 
-    def clear_cart(self):
+    def clear_cart(self):   
         """
-        Clears the cart after checkout
+        Clears the cart after checkout  
         """
         self.cart = []
 
@@ -101,33 +103,33 @@ class MainPage:
         Open the inventory window.
         """
         self.master.withdraw()  # Hide the main window
-        inventory_window = tk.Toplevel(self.master)
-        inventory_window.title("ReRead - Inventory")
-        inventory_window.configure(bg='#F7F7F7')
-        inventory_window.protocol("WM_DELETE_WINDOW", self.on_inventory_window_close)
-        InventoryPage(inventory_window, self.db_connection, self.inventory_db_connection, self.cart, self.open_cart_window)
+        inventory_window = tk.Toplevel(self.master) # Create a new window
+        inventory_window.title("ReRead - Inventory")               
+        inventory_window.configure(bg='#F7F7F7')    
+        inventory_window.protocol("WM_DELETE_WINDOW", self.on_inventory_window_close)                  
+        InventoryPage(inventory_window, self.db_connection, self.inventory_db_connection, self.cart, self.open_cart_window) 
 
     def open_cart_window(self):
         """
         Open the cart window.
         """
         self.master.withdraw()  # Hide the main window
-        cart_window = tk.Toplevel(self.master)
-        cart_window.protocol("WM_DELETE_WINDOW", self.on_cart_window_close)
-        cart_window.title("ReRead - View Cart")
-        cart_window.configure(bg='#F7F7F7')
-        CartPage(cart_window, self.cart, self.db_connection, self.inventory_db_connection, self.clear_cart)
+        cart_window = tk.Toplevel(self.master)  # Create a new window
+        cart_window.protocol("WM_DELETE_WINDOW", self.on_cart_window_close) # Set the close window callback
+        cart_window.title("ReRead - View Cart") # Set the window title
+        cart_window.configure(bg='#F7F7F7') 
+        CartPage(cart_window, self.cart, self.db_connection, self.inventory_db_connection, self.clear_cart)     
 
     def open_login_window(self):
         """
         Open the login window.
         """
         self.master.withdraw()  # Hide the main window
-        login_window = tk.Toplevel(self.master)
-        login_window.protocol("WM_DELETE_WINDOW", self.on_login_window_close)
-        login_window.title("ReRead - Login")
-        login_window.configure(bg='#F7F7F7')
-        LoginPage(login_window, self.db_connection, self.inventory_db_connection)
+        login_window = tk.Toplevel(self.master) # Create a new window
+        login_window.protocol("WM_DELETE_WINDOW", self.on_login_window_close)   # Set the close window callback            
+        login_window.title("ReRead - Login")    # Set the window title
+        login_window.configure(bg='#F7F7F7')            
+        LoginPage(login_window, self.db_connection, self.inventory_db_connection)       
 
 
     def open_register_window(self):
@@ -135,8 +137,8 @@ class MainPage:
         Open the registration window.
         """
         self.master.withdraw()  # Hide the main window
-        register_window = tk.Toplevel(self.master)
-        register_window.protocol("WM_DELETE_WINDOW", self.on_register_window_close)
+        register_window = tk.Toplevel(self.master)  # Create a new window
+        register_window.protocol("WM_DELETE_WINDOW", self.on_register_window_close) # Set the close window callback
         register_window.title("ReRead - Registration")
         register_window.configure(bg='#F7F7F7')
         RegistrationPage(register_window, self.db_connection)
@@ -146,9 +148,9 @@ class MainPage:
         """
         Callback when the inventory window is closed.
         """
-        self.master.destroy()
-        if logged_in:
-            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection, self.cart)
+        self.master.destroy()   
+        if logged_in:   
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection, self.cart)    
         else:
             main()
 
@@ -156,7 +158,7 @@ class MainPage:
         """
         Callback when the cart window is closed.
         """
-        self.master.destroy()
+        self.master.destroy()   
         if logged_in:
             main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
         else:
@@ -207,25 +209,25 @@ class SellPage:
             master (tk.Tk): The master Tkinter window.
             inventory_db_connection: SQLite database connection for inventory data.
         """
-        self.master = master
-        self.inventory_db_connection = inventory_db_connection
-        self.master.title("ReRead - Sell Book")
-        self.master.configure(background='#F7F7F7')
+        self.master = master        
+        self.inventory_db_connection = inventory_db_connection  # Store inventory_db_connection
+        self.master.title("ReRead - Sell Book") # Set window title
+        self.master.configure(background='#F7F7F7') 
 
         # Labels and Entry Widgets for the book details form
-        tk.Label(master, text="Title:", font=("Arial", 12), bg='#F7F7F7').pack()
-        self.title_entry = tk.Entry(master, font=("Arial", 12))
+        tk.Label(master, text="Title:", font=("Arial", 12), bg='#F7F7F7').pack()    
+        self.title_entry = tk.Entry(master, font=("Arial", 12)) 
         self.title_entry.pack()
 
-        tk.Label(master, text="Author:", font=("Arial", 12), bg='#F7F7F7').pack()
+        tk.Label(master, text="Author:", font=("Arial", 12), bg='#F7F7F7').pack()   
         self.author_entry = tk.Entry(master, font=("Arial", 12))
         self.author_entry.pack()
 
         tk.Label(master, text="Price:", font=("Arial", 12), bg='#F7F7F7').pack()
-        self.price_entry = tk.Entry(master, font=("Arial", 12))
+        self.price_entry = tk.Entry(master, font=("Arial", 12)) 
         self.price_entry.pack()
 
-        tk.Label(master, text="Quantity:", font=("Arial", 12), bg='#F7F7F7').pack()
+        tk.Label(master, text="Quantity:", font=("Arial", 12), bg='#F7F7F7').pack() 
         self.quantity_entry = tk.Entry(master, font=("Arial", 12))
         self.quantity_entry.pack()
 
@@ -236,9 +238,9 @@ class SellPage:
     def sell_book(self):
         """
         Sell a book. Insert book into inventory database
-        """
-        # Get book details from the form
-        title = self.title_entry.get()
+        """ 
+        # Get book details from the form    
+        title = self.title_entry.get()  
         author = self.author_entry.get()
         price = self.price_entry.get()
         quantity = self.quantity_entry.get()
@@ -272,12 +274,12 @@ class InventoryPage:
             db_connection: SQLite database connection for user data.
             inventory_db_connection: SQLite database connection for inventory data.
         """
-        self.master = master
-        self.db_connection = db_connection
-        self.inventory_db_connection = inventory_db_connection
+        self.master = master           
+        self.db_connection = db_connection      
+        self.inventory_db_connection = inventory_db_connection  
         self.cart = cart
-        self.open_cart_window2 = open_cart_window
-        self.master.configure(bg='#F7F7F7')
+        self.open_cart_window2 = open_cart_window   
+        self.master.configure(bg='#F7F7F7') 
 
         self.inventory_tree = ttk.Treeview(master)
         self.inventory_tree["columns"] = ("Title", "Author", "Price", "Quantity")
@@ -334,7 +336,7 @@ class InventoryPage:
         Open the sell page.
         """
         sell_window = tk.Toplevel(self.master)
-        sell_window.title("ReRead - Sell Book")
+        sell_window.title("ReRead - Sell Book")     
         sell_window.configure(bg='#F7F7F7')
         SellPage(sell_window, self.inventory_db_connection)
 
@@ -351,7 +353,7 @@ class InventoryPage:
         # Extract book details from the selected item
         book_id = self.inventory_tree.item(selected_item, "text")
         book_title = self.inventory_tree.item(selected_item, "values")[0]
-        book_author = self.inventory_tree.item(selected_item, "values")[1]
+        book_author = self.inventory_tree.item(selected_item, "values")[1]  
         book_price = self.inventory_tree.item(selected_item, "values")[2]
 
         book_quantity = int(self.inventory_tree.item(selected_item, "values")[3])
@@ -544,8 +546,8 @@ class LoginPage:
         """
         Log in the user.
         """
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        username = self.username_entry.get()       
+        password = self.password_entry.get()    
         global logged_in
         global userID
 
@@ -555,14 +557,14 @@ class LoginPage:
 
         # Check if username and password match
         cursor = self.db_connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-        user = cursor.fetchone()
+        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)) 
+        user = cursor.fetchone()    
 
         if user:
             userID = user[0]
             messagebox.showinfo("Success", "Login successful!")
             logged_in = True
-            self.master.withdraw()
+            self.master.withdraw()  
             self.master.destroy()
             main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
 
