@@ -15,33 +15,44 @@ logged_in = False
 
 
 class MainPage:
-    """
-    Class representing the main page of the application.
-    """
-
-    def __init__(self, master, db_connection, inventory_db_connection):
+    def __init__(self, master, db_connection, inventory_db_connection, cart=None):
         """
-        Initialize the main page.
+                Initialize the main page.
 
-        Args:
-            master (tk.Tk): The master Tkinter window.
-            db_connection: SQLite database connection for user data.
-            inventory_db_connection: SQLite database connection for inventory data.
-        """
+                Args:
+                    master (tk.Tk): The master Tkinter window.
+                    db_connection: SQLite database connection for user data.
+                    inventory_db_connection: SQLite database connection for inventory data.
+                """
         self.master = master
         self.db_connection = db_connection
-        self.inventory_db_connection = inventory_db_connection
+        self.inventory_db_connection = inventory_db_connection  # Store inventory_db_connection
         self.master.title("ReRead - Main Page")
         self.master.configure(background='#F7F7F7')  # Light grey background color
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-        self.load_and_display_image()
-        
-        welcome_label = tk.Label(self.master, text="Welcome to ReRead!", font=("Arial", 16), bg='#F7F7F7')
-        welcome_label.pack(pady=10)
-        
+        if cart is None:
+            self.cart = []  # Initialize cart as an empty list if not provided
+        else:
+            self.cart = cart  # Don't recreate the cart if reopening this page
+
+        image_path = "books.jpg"  # Adjust the path accordingly
+        image = Image.open(image_path)
+
+        # Resize the image if needed
+        image = image.resize((500, 300))  # Adjust width and height as needed
+
+        # Convert the image to a format compatible with Tkinter
+        self.photo = ImageTk.PhotoImage(image)
+
+        # Create a Label widget to display the image
+        image_label = tk.Label(self.master, image=self.photo, bg='#F7F7F7')
+        image_label.image = self.photo  # Keep a reference to prevent garbage collection
+        image_label.pack()
+
         # Introduction
         intro_text = """
-        Where the love for books meets the joy of recycling! 
+        Welcome to ReRead - where the love for books meets the joy of recycling! 
         Dive into our virtual bookstore, where every page holds a story and every purchase breathes new life into pre-loved books.
         Search for your next literary adventure, add favorites to your cart, and embark on a journey through the endless shelves of knowledge.
         Let's rediscover the magic of reading while also caring for our planet. Happy browsing!
@@ -51,12 +62,8 @@ class MainPage:
         intro_label.pack()
 
         inventory_button = tk.Button(master, text="Inventory", command=self.open_inventory_window, font=("Arial", 12),
-                                  bg='#007BFF', fg='white')  # Set button color
+                                     bg='#007BFF', fg='white')  # Set button color
         inventory_button.pack(pady=5)
-
-        view_cart_button = tk.Button(master, text="View Cart", command=self.open_cart_window, font=("Arial", 12),
-                                     bg='#007BFF', fg='white')
-        view_cart_button.pack(pady=5)
 
         if not logged_in:
             # Login and Register buttons
@@ -69,20 +76,25 @@ class MainPage:
             register_button.pack(pady=5)
 
         if logged_in:
+            view_cart_button = tk.Button(master, text="View Cart", command=self.open_cart_window, font=("Arial", 12),
+                                         bg='#007BFF', fg='white')
+            view_cart_button.pack(pady=5)
+
             logout_button = tk.Button(master, text="Log Out", command=self.logout, font=("Arial", 12),
-                                     bg='#DC3545', fg='white')
+                                      bg='#DC3545', fg='white')
             logout_button.pack(pady=5)
 
     def logout(self):
-        """
-        Log out the user.
-        """
         global logged_in
         logged_in = False
         self.master.destroy()
-        main()
+        main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
 
-
+    def clear_cart(self):
+        """
+        Clears the cart after checkout
+        """
+        self.cart = []
 
     def open_inventory_window(self):
         """
@@ -93,7 +105,7 @@ class MainPage:
         inventory_window.title("ReRead - Inventory")
         inventory_window.configure(bg='#F7F7F7')
         inventory_window.protocol("WM_DELETE_WINDOW", self.on_inventory_window_close)
-        InventoryPage(inventory_window, self.db_connection, self.inventory_db_connection)
+        InventoryPage(inventory_window, self.db_connection, self.inventory_db_connection, self.cart, self.open_cart_window)
 
     def open_cart_window(self):
         """
@@ -104,7 +116,7 @@ class MainPage:
         cart_window.protocol("WM_DELETE_WINDOW", self.on_cart_window_close)
         cart_window.title("ReRead - View Cart")
         cart_window.configure(bg='#F7F7F7')
-        CartPage(cart_window)
+        CartPage(cart_window, self.cart, self.db_connection, self.inventory_db_connection, self.clear_cart)
 
     def open_login_window(self):
         """
@@ -116,25 +128,7 @@ class MainPage:
         login_window.title("ReRead - Login")
         login_window.configure(bg='#F7F7F7')
         LoginPage(login_window, self.db_connection, self.inventory_db_connection)
-        
-    def load_and_display_image(self):
-        """
-        Load and display the image on the main window.
-        """
-        # Load the image
-        image_path = "books.jpg"  # Adjust the path accordingly
-        image = Image.open(image_path)
 
-        # Resize the image if needed
-        image = image.resize((600, 400))  # Adjust width and height as needed
-
-        # Convert the image to a format compatible with Tkinter
-        photo = ImageTk.PhotoImage(image)
-
-        # Create a Label widget to display the image
-        image_label = tk.Label(self.master, image=photo, bg='#F7F7F7')
-        image_label.image = photo  # Keep a reference to prevent garbage collection
-        image_label.pack()
 
     def open_register_window(self):
         """
@@ -153,28 +147,53 @@ class MainPage:
         Callback when the inventory window is closed.
         """
         self.master.destroy()
-        main()
+        if logged_in:
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection, self.cart)
+        else:
+            main()
 
     def on_cart_window_close(self):
         """
         Callback when the cart window is closed.
         """
         self.master.destroy()
-        main()
+        if logged_in:
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
+        else:
+            main()
 
     def on_register_window_close(self):
         """
         Callback when the register window is closed.
         """
         self.master.destroy()
-        main()
+        if logged_in:
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
+        else:
+            main()
 
     def on_login_window_close(self):
         """
         Callback when the login window is closed.
         """
         self.master.destroy()
-        main()
+        self.photo = None
+        if logged_in:
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
+        else:
+            main()
+
+    def on_closing(self):
+        """
+        Callback when the main window is closed.
+        """
+        # Close database connections
+        self.db_connection.close()
+        self.inventory_db_connection.close()
+        global logged_in
+        logged_in = False
+        self.master.quit()
+        self.master.destroy()
 
 class SellPage:
     """
@@ -469,7 +488,6 @@ class LoginPage:
             messagebox.showinfo("Success", "Login successful!")
             logged_in = True
             self.master.withdraw()  # Hide the login window
-
             self.master.destroy()
             main()
 
@@ -488,7 +506,7 @@ def main():
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         username TEXT UNIQUE,
                         password TEXT,
-                        email TEXT)''')  # Added email column
+                        email TEXT)''')  
 
     inventory_db_connection = sqlite3.connect("inventory_database.db")
     cursor_inventory = inventory_db_connection.cursor()
