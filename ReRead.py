@@ -253,10 +253,17 @@ class SellPage:
 
         # Insert book into the inventory database
         cursor = self.inventory_db_connection.cursor()
-        cursor.execute("INSERT INTO inventory (title, author, price, quantity) VALUES (?, ?, ?, ?)",
-                       (title, author, price, quantity))
-        self.inventory_db_connection.commit()
+        cursor.execute("SELECT * FROM inventory WHERE title=? AND author=?",(title, author))
+        repeat = cursor.fetchone()
+        if repeat:
+            new_quantity = int(quantity) + int(repeat[6])
+            cursor.execute("UPDATE inventory SET quantity=? WHERE title=? AND author=?",(new_quantity, title, author))
 
+        else:
+            cursor.execute("INSERT INTO inventory (title, author, price, quantity) VALUES (?, ?, ?, ?)",
+                           (title, author, price, quantity))
+
+        self.inventory_db_connection.commit()
         messagebox.showinfo("Success", "Book added to inventory successfully!")
         self.master.destroy()
 
