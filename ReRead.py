@@ -470,8 +470,8 @@ class RegistrationPage:
         register_button.pack(pady=10)
 
         def register_user(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+            username = self.username_entry.get()
+            password = self.password_entry.get()
 
         if not username or not password:
             tk.messagebox.showerror("Error", "Please enter both username and password.")
