@@ -321,14 +321,17 @@ class InventoryPage:
 
     def populate_inventory(self):
         """
-        Populate the inventory list.
-        """
+         Populate the inventory list.
+         """
         cursor = self.inventory_db_connection.cursor()
         cursor.execute("SELECT * FROM inventory WHERE quantity > 0")
         books = cursor.fetchall()
 
         for book in books:
-            self.inventory_tree.insert("", "end", text=book[0], values=(book[1], book[2], book[5], book[6]))
+        # Format the price with two decimal places and a dollar sign
+            formatted_price = "${:.2f}".format(book[5])
+            self.inventory_tree.insert("", "end", text=book[0], values=(book[1], book[2], formatted_price, book[6]))
+
 
     def refresh_inventory(self):
         # Clear existing items in the inventory treeview
