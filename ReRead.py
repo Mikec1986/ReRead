@@ -469,7 +469,7 @@ class RegistrationPage:
                                     bg='#007BFF', fg='white')
         register_button.pack(pady=10)
 
-    def register_user(self):
+        def register_user(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
 
@@ -486,22 +486,27 @@ class RegistrationPage:
             tk.messagebox.showerror("Error", "Username already exists. Please choose a different username.")
             return
 
-        # Insert new user into the database
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-        self.db_connection.commit()
+        else:
+            # Insert new user into the database
+            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+            self.db_connection.commit()
 
-        # Get the last inserted row ID (auto-incremented)
-        user_id = cursor.lastrowid
+            # Get the last inserted row ID (auto-incremented)
+            user_id = cursor.lastrowid
 
-        # Format the user ID to a four-digit number
-        user_id_four_digits = '{:04d}'.format(user_id)
+            # Format the user ID to a four-digit number
+            user_id_four_digits = '{:04d}'.format(user_id)
 
-        tk.messagebox.showinfo("Success", "Registration successful!")
-        logged_in = True
+            tk.messagebox.showinfo("Success", "Registration successful!")
+            logged_in = True
 
-        # Clear entry fields after registration
-        self.username_entry.delete(0, tk.END)
-        self.password_entry.delete(0, tk.END)
+            # Clear entry fields after registration
+            self.username_entry.delete(0, tk.END)
+            self.password_entry.delete(0, tk.END)
+
+            self.master.withdraw()
+            self.master.destroy()
+            main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
 
 class LoginPage:
     """
