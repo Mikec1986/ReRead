@@ -93,7 +93,10 @@ class MainPage:
                                       bg='#DC3545', fg='white')
             logout_button.pack(pady=5)
 
-    def logout(self):   
+    def logout(self):
+        """
+        Logs the user out
+        """
         global logged_in               
         logged_in = False   
         self.master.destroy()
@@ -359,6 +362,9 @@ class LoginPage:
         user = cursor.fetchone()    
 
         if user:
+            """
+            Log in check
+            """
             userID = user[0]
             messagebox.showinfo("Success", "Login successful!")
             logged_in = True
@@ -451,7 +457,9 @@ class InventoryPage:
         SellPage(sell_window, self.inventory_db_connection)
  
     def add_to_cart(self):
-        # Get the selected item from the inventory treeview
+        """
+        Get the selected item from the inventory treeview
+        """
         selected_item = self.inventory_tree.selection()
         if not selected_item:
             messagebox.showerror("Error", "Please select a book to add to cart.")
@@ -462,8 +470,8 @@ class InventoryPage:
         book_title = self.inventory_tree.item(selected_item, "values")[0]
         book_author = self.inventory_tree.item(selected_item, "values")[1]  
         book_price = self.inventory_tree.item(selected_item, "values")[2]
-
         book_quantity = int(self.inventory_tree.item(selected_item, "values")[3])
+        
         if book_quantity <= 0:
             messagebox.showerror("Error", "This book is out of stock.")
             return
@@ -530,7 +538,7 @@ class SellPage:
         price = self.price_entry.get()
         quantity = self.quantity_entry.get()
 
-        # Verify quantity and  is a whole number
+        # Validate quantity and price.
         try:
             quantity_test = int(quantity)
             price_test = float(price)
@@ -562,6 +570,9 @@ class SellPage:
 
 
 class CartPage:
+    """
+    Cart page with treeview to see items in cart
+    """
     def __init__(self, master, cart, db_connection, inventory_db_connection, clear_cart2):
         self.master = master
         self.cart = cart
