@@ -1,3 +1,11 @@
+"""
+Name: ReRead.py
+Authors: Michael Coughlin, Leah Mattingly, Aubrie McIntyre, Perrin Brumfield, Gautam Mehla
+Date Last Updated: May 9th, 2024
+Description: Tkinter application that facilitates the purchase and selling of used books.
+Users can register, login, browse books, add books to cart, and purchase books.
+"""
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
