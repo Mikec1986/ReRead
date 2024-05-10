@@ -9,7 +9,7 @@ class User:
     """
     User class when registering a new user
     """
-    def __init__(self, userID, username, email, password):
+    def __init__(self, userID, username, password):
         self.userID = userID
         self.username = username
         self.password = password
