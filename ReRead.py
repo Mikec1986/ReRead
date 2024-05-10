@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
-from user import user
-from book import book
+from user import User
+from book import Book
 from PIL import Image, ImageTk
 
 global logged_in
@@ -270,6 +270,9 @@ class RegistrationPage:
             # Format the user ID to a four-digit number
             user_id_four_digits = '{:04d}'.format(user_id)
 
+            #Create a new user object
+            new_user = User(user_id_four_digits,username,password)
+
             tk.messagebox.showinfo("Success", "Registration successful!")
             logged_in = True
 
@@ -277,6 +280,7 @@ class RegistrationPage:
             self.username_entry.delete(0, tk.END)
             self.password_entry.delete(0, tk.END)
 
+            #Withdraw and destroy window after registering
             self.master.withdraw()
             self.master.destroy()
             main_page = MainPage(tk.Toplevel(), self.db_connection, self.inventory_db_connection)
@@ -370,7 +374,7 @@ class InventoryPage:
             db_connection: SQLite database connection for user data.
             inventory_db_connection: SQLite database connection for inventory data.
         """
-        self.master = master           
+        self.master = master     
         self.db_connection = db_connection      
         self.inventory_db_connection = inventory_db_connection  
         self.cart = cart
@@ -512,15 +516,21 @@ class SellPage:
         sell_button.pack(pady=10)
 
     def sell_book(self):
-        """
-        Sell a book. Insert book into inventory database
-        """ 
         # Get book details from the form    
         title = self.title_entry.get()  
         author = self.author_entry.get()
         price = self.price_entry.get()
         quantity = self.quantity_entry.get()
 
+        # Verify quantity and  is a whole number
+        try:
+            quantity_test = int(quantity)
+            price_test = float(price)
+            if quantity_test < 1 or price_test < 0:
+                raise ValueError
+        except ValueError:
+            messagebox.showerror("Error", "Please enter a valid quantity or price.")
+            return
 
         # Validate input
         if not title or not author or not price or not quantity:
@@ -529,15 +539,14 @@ class SellPage:
 
         # Insert book into the inventory database
         cursor = self.inventory_db_connection.cursor()
-        cursor.execute("SELECT * FROM inventory WHERE title=? AND author=?",(title, author))
+        cursor.execute("SELECT * FROM inventory WHERE title=? AND author=?", (title, author))
         repeat = cursor.fetchone()
         if repeat:
-            new_quantity = int(quantity) + int(repeat[6])
-            cursor.execute("UPDATE inventory SET quantity=? WHERE title=? AND author=?",(new_quantity, title, author))
-
+            new_quantity = int(quantity) + int(repeat[6])  # Ensure consistency by converting repeat[6] to int
+            cursor.execute("UPDATE inventory SET quantity=? WHERE title=? AND author=?", (new_quantity, title, author))
         else:
             cursor.execute("INSERT INTO inventory (title, author, price, quantity) VALUES (?, ?, ?, ?)",
-                           (title, author, price, quantity))
+                        (title, author, price, quantity))
 
         self.inventory_db_connection.commit()
         messagebox.showinfo("Success", "Book added to inventory successfully!")
