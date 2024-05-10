@@ -5,7 +5,7 @@ Date Last Updated: April 20, 2024
 Description: Class file for books
 """
 
-class book:
+class Book:
     def __init__(self, title, author, ISBN, condition, price):
         self.title = title
         self.author = author
